@@ -24,7 +24,7 @@ public class loadMenu implements loadData {
             reader.readNext();
             String[] line;
             while ((line = reader.readNext()) != null) {
-                String name = line[0];
+                String name = line[0].replace(" ", "_");
                 double price = Double.parseDouble(line[1]);
                 BranchName branchName = BranchName.valueOf(line[2].toUpperCase());
                 Branch branch = BranchCache.getInstance().getBranch(branchName);
