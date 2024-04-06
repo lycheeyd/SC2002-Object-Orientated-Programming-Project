@@ -1,5 +1,6 @@
 package com.UI;
 
+import java.util.Scanner;
 import com.cache.EmployeeCache;
 
 public class Authenticator {
