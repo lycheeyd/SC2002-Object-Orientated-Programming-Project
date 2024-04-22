@@ -1,5 +1,68 @@
 package com.payment;
 
-public enum PaymentMethod {
-    CREDIT_CARD, DEBIT_CARD, CASH, PAYPAL, NETS;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+
+public class PaymentMethod {
+
+    private static List<String> paymentMethods = new ArrayList<>(Arrays.asList("CREDIT_CARD", "DEBIT_CARD", "CASH", "PAYPAL", "NETS"));
+
+    public static void addValue(String method) {
+        if (!paymentMethods.contains(method)) {
+            paymentMethods.add(method);
+            System.out.println("Added new payment method: " + method);
+        } else {
+            System.out.println("Payment method already exists: " + method);
+        }
+    }
+
+    public static void removeValue(String method) {
+        if (paymentMethods.contains(method)) {
+            paymentMethods.remove(method);
+            System.out.println("Removed payment method: " + method);
+        } else {
+            System.out.println("Payment method does not exist: " + method);
+        }
+    }
+    
+    public static List<String> getOptions() {
+        return paymentMethods;
+    }
+
+    public static PaymentStatus processPayment(String method, double cost) {
+        System.out.println("Processing payment with " + method);
+        System.out.println("Payment successful.\n");
+        return PaymentStatus.SUCCESSFUL;
+
+/*        
+        while(true) {
+            int paymentMethod = scanner.nextInt();
+            switch (paymentMethod) {
+                case 1:
+                    System.out.println("Processing payment with Credit Card...");
+                    return PaymentStatus.SUCCESSFUL;
+                case 2:
+                    System.out.println("Processing payment with Debit Card...");
+                    return PaymentStatus.SUCCESSFUL;
+                case 3:
+                    System.out.println("Processing payment with Cash...");
+                    return PaymentStatus.SUCCESSFUL;
+                case 4:
+                    System.out.println("Processing payment with Paypal...");
+                    return PaymentStatus.SUCCESSFUL;
+                case 5:
+                    System.out.println("Processing payment with Nets...");
+                    return PaymentStatus.SUCCESSFUL;
+                case 6:
+                    System.out.println("Cancelling payment...");
+                    return PaymentStatus.CANCELLED;
+                default:
+                    System.out.println("Unsupported payment method.");
+                    continue;
+            }
+        }
+        */
+    }
 }
