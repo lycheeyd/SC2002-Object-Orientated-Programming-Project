@@ -1,5 +1,16 @@
 package com.order;
 
-public enum OrderStatus {
-    NEW, IN_PROGRESS, READY_TO_PICKUP, COMPLETED;
+import java.util.function.Predicate;
+
+public enum OrderStatus implements Predicate<Order> {
+    NEW,
+    IN_PROGRESS,
+    READY_TO_PICKUP,
+    COMPLETED,
+    CANCELLED;
+
+    @Override
+    public boolean test(Order order) {
+        return order.getStatus().equals(this);
+    } 
 }
