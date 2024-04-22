@@ -49,12 +49,11 @@ public class MenuItem {
 
     @Override
     public String toString() {
-        return "{" +
+        return
             " name='" + getName() + "'" +
             ", price='" + getPrice() + "'" +
             ", branch='" + getBranch().getBranchName() + "'" +
-            ", category='" + getCategory() + "'" +
-            "}";
+            ", category='" + getCategory() + "'";
     }
 
 }

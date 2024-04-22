@@ -1,6 +1,16 @@
 package com.menu;
 
-public enum menuCategory {
-    SIDE, SET_MEAL, BURGER, DRINK;
+import java.util.function.Predicate;
+
+public enum menuCategory implements Predicate<MenuItem> {
+    SIDE, 
+    SET_MEAL, 
+    BURGER, 
+    DRINK;
+
+    @Override
+    public boolean test(MenuItem item) {
+        return item.getCategory().equals(this);
+    } 
 
 }
