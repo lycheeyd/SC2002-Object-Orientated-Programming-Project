@@ -24,10 +24,10 @@ public class loadMenu implements loadData {
             reader.readNext();
             String[] line;
             while ((line = reader.readNext()) != null) {
-                String name = line[0].replace(" ", "_");
+                String name = line[0];
                 double price = Double.parseDouble(line[1]);
                 BranchName branchName = BranchName.valueOf(line[2].toUpperCase());
-                Branch branch = BranchCache.getInstance().getBranch(branchName);
+                Branch branch = BranchCache.getInstance().getItem(branchName);
                 menuCategory category = menuCategory.valueOf(line[3].replace(" ", "_").toUpperCase());
                 /* try {
                     category = menuCategory.valueOf(line[3].replace(" ", "_").toUpperCase());
@@ -36,7 +36,7 @@ public class loadMenu implements loadData {
                     System.exit(4);
                 } */
 
-                cache.addMenuItem(name, new MenuItem(name, price, branch, category));
+                cache.addItem(name, new MenuItem(name, price, branch, category));
             }
         } 
         catch (FileNotFoundException e) {

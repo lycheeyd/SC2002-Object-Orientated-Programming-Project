@@ -24,7 +24,7 @@ public class loadBranch implements loadData {
                 String location = line[1];
                 int staffQuota = Integer.parseInt(line[2]);
 
-                cache.addBranch(branchName, new Branch(branchName, location, staffQuota));
+                cache.addItem(branchName, new Branch(branchName, location, staffQuota));
             }
         } 
         catch (FileNotFoundException e) {

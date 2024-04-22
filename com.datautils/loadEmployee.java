@@ -40,18 +40,18 @@ public class loadEmployee implements loadData {
                 } catch (IllegalArgumentException e) {
                     branchName = null;
                 }
-                Branch branch = BranchCache.getInstance().getBranch(branchName);
+                Branch branch = BranchCache.getInstance().getItem(branchName);
                 String password = line[6];
                 
                 switch(role) {
                     case S:
-                        cache.addEmployee(loginID, new Staff(name, loginID, role, gender, age, branch, password));
+                        cache.addItem(loginID, new Staff(name, loginID, role, gender, age, branch, password));
                         break;
                     case M:
-                        cache.addEmployee(loginID, new Manager(name, loginID, role, gender, age, branch, password));
+                        cache.addItem(loginID, new Manager(name, loginID, role, gender, age, branch, password));
                         break;
                     case A:
-                        cache.addEmployee(loginID, new Admin(name, loginID, role, gender, age, branch, password));
+                        cache.addItem(loginID, new Admin(name, loginID, role, gender, age, branch, password));
                         break;
                     }
             }
