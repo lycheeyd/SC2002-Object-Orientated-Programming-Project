@@ -26,6 +26,12 @@ public class UserInterfaces {
                     selectBranch(scanner);
                     break;
                 case 2:
+                    System.out.println("Enter User ID: ");
+                    String loginID = scanner.nextLine();
+                    System.out.println("Enter Password: ");
+                    String password = scanner.nextLine();
+                    
+                    
 
 
                 default:

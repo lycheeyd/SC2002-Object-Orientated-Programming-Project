@@ -1,14 +1,37 @@
 package com.UI;
 
-import com.cache.EmployeeCache;
+import java.util.Scanner;
+
+import com.users.Employee;
 
 public class Authenticator {
     
-    public static boolean Authenticate(String loginID, String password) {
-        if (EmployeeCache.getInstance().getItem(loginID).getPassword() == password) {
-            return true;
+    public boolean Authenticate(Employee employee, String password) {
+        String realPassword = employee.getPassword();
+        if (realPassword.equals(password)) {
+            if (realPassword.equals("password")) {
+                Scanner scanner = new Scanner(System.in);
+                System.out.println("\nYour password is default password. Please update your password.");
+                changePassword(scanner);
+                scanner.close();
+                return true;
+            } else {
+                return true;
+            }
         }
         return false;
     }
-    
+
+    public String changePassword(Scanner scanner) {
+        System.out.print("Enter new password: ");
+        String password = scanner.next();
+        System.out.print("Re-enter new password: ");
+        String rePassword = scanner.next();
+        if (password.equals(rePassword)) {
+            return password;
+        } else {
+            System.out.println("\nPassword does not match. Try again.");
+            return changePassword(scanner);
+        }
+    }
 }
