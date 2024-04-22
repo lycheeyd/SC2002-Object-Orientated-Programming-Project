@@ -1,46 +1,37 @@
 package com;
 
-import com.cache.AppCache;
-import com.cache.BranchCache;
-import com.cache.EmployeeCache;
-import com.cache.MenuCache;
 import com.datautils.loadBranch;
 import com.datautils.loadData;
 import com.datautils.loadMenu;
+import com.order.AutoCancelService;
 import com.datautils.loadEmployee;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+
+import com.UI.StartupUI;
 
 public class FOMSApp {
     // initialisation and populate cache storages from files
-    public static void startUp() {
-        // initialise objects
-        loadData branchLoader = new loadBranch();
-        loadData menuLoader = new loadMenu();
-        loadData employeeLoader = new loadEmployee();
-
-        // populate cache storages from files
-        branchLoader.loadFile();
-        menuLoader.loadFile();
-        employeeLoader.loadFile();
-
-
-
+    private static void Startup() {
+        System.out.println("[=+=] Booting up system... [=+=]\n");
+        List<loadData> loaders = Arrays.asList(new loadBranch(), new loadMenu(), new loadEmployee());
+        loaders.forEach(loadData::loadFile);
+        System.out.println("\n[=+=] Welcome to FOMSapp [=+=]\n");
     }
+
+    public static void Shutdown() {
+        AutoCancelService.getInstance().shutdown();
+//        List<saveData> savers = Arrays.asList();
+//        savers.forEach(saveData::saveFile);
+
+        System.exit(0);
+    }
+
     public static void main(String[] args) {
-        // initialise
-        startUp();
-/* 
-        // initialise cache references
-        AppCache branchCache = BranchCache.getInstance();
-        AppCache menuCache = MenuCache.getInstance();
-        AppCache employeeCache = EmployeeCache.getInstance();
-*/
-        BranchCache.getInstance().printAllItems();
-        MenuCache.getInstance().printAllItems();
-        EmployeeCache.getInstance().printAllItems();
-
-
-
-
-    
+        Scanner scanner = new Scanner(System.in);
+        Startup();
+        new StartupUI().displayMenu(scanner);
     }
 }
