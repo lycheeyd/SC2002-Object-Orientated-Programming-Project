@@ -86,7 +86,7 @@ public abstract class Employee {
             ", role='" + getRole() + "'" +
             ", gender='" + getGender() + "'" +
             ", age='" + getAge() + "'" +
-            ", branch='" + ((this.getBranch() != null) ? this.getBranch().getBranchName() : "NA") + "'" +
+            ", branch='" + ((this.getBranch() != null) ? this.getBranch().getBranchName() : null) + "'" +
             ", password='" + getPassword() + "'" +
             "}";
     }
