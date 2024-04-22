@@ -1,14 +1,14 @@
 package com.cache;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 import com.users.Employee;
 
-public class EmployeeCache {
+public class EmployeeCache extends AppCache<String, Employee, Employee>{
     
     private static EmployeeCache instance;
-    private Map<String, Employee> employees = new HashMap<>();
 
     private EmployeeCache() {}
 
@@ -19,18 +19,43 @@ public class EmployeeCache {
         return instance;
     }
  
-    public void addEmployee(String loginID, Employee employee) {
-        employees.put(loginID, employee);
+    @Override
+    public void addItem(String loginID, Employee employee) {
+        if (cacheItems.containsKey(loginID)) {
+            System.out.println("Employee "+ loginID + " already exists.");
+        } else {
+            cacheItems.put(loginID, employee);
+            System.out.println("Employee " + loginID + " successfully added.");
+        }
     }
 
-  
-    public Employee getEmployee(String loginID) {
-        return employees.get(loginID);
+    @SafeVarargs
+    @Override
+    public final void removeItem(String loginID, Optional<Predicate<Employee>>... filters) {
+        if (cacheItems.containsKey(loginID)) {
+            cacheItems.remove(loginID);
+            System.out.println(loginID + "is removed.");
+        } else {
+            System.out.println("Unable to remove employee (Employee not found)");
+        }
     }
 
+    @SafeVarargs
+    @Override
+    public final Employee getItem(String loginID, Optional<Predicate<Employee>>... filters) {
+        if (cacheItems.containsKey(loginID)) {
+            return cacheItems.get(loginID);
+        } else {
+            // System.out.println("Unable to retrieve employee (Employee not found)");
+            return null;
+        }
+    }
     
-    public void printAllItems() {
-        employees.values().forEach(System.out::println);
+    @Override
+    public void printAllItems(Function<Employee, ?> function) {
+        cacheItems.values().stream()
+                        .map(function)
+                        .forEach(System.out::println);
     }
 
 }

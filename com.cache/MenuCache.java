@@ -1,19 +1,18 @@
 package com.cache;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import com.branch.BranchName;
 import com.menu.MenuItem;
-import com.menu.menuCategory;
 
-public class MenuCache {
+public class MenuCache extends AppCache<String, List<MenuItem>, MenuItem> {
     
     private static MenuCache instance;
-    private Map<String, List<MenuItem>> menuItem = new HashMap<>();
 
     private MenuCache() {}
 
@@ -23,16 +22,98 @@ public class MenuCache {
         }
         return instance;
     }
--
-    public void addMenuItem(String name, MenuItem newItem) {
-        menuItem.computeIfAbsent(name, k -> new ArrayList<>()).add(newItem);
+
+    @Override
+    public void addItem(String name, MenuItem newItem) {
+        List<MenuItem> items = cacheItems.computeIfAbsent(name, k -> new ArrayList<>());
+
+        if (items.stream().anyMatch(item -> item.getBranch().equals(newItem.getBranch()))) {
+            System.out.println(name + " already exists in branch " + newItem.getBranch().getBranchName() + ".");
+        } else {
+            items.add(newItem);
+            System.out.println(name + " added to menu of " + newItem.getBranch().getBranchName());
+        }
     }
 
-    
-    public List<MenuItem> getMenuItem(String name) {
-        return menuItem.getOrDefault(name, new ArrayList<>());
+    @SafeVarargs
+    @Override
+    public final void removeItem(String name, Optional<Predicate<MenuItem>>... filters) {
+        Predicate<MenuItem> combinedFilters = Stream.of(filters)
+                                                    .filter(Optional::isPresent)
+                                                    .map(Optional::get)
+                                                    .reduce(Predicate::and)
+                                                    .orElseGet(() -> {
+                                                        System.out.println("Operation terminated prematurely. [Code Error] No filter provided.");
+                                                        return x -> false;
+                                                    }); // Defaults to false if no filters provided - Nothing is removed.
+
+        if (cacheItems.containsKey(name)) {
+            List<MenuItem> items = cacheItems.get(name);
+            if (items != null && !items.isEmpty()) {
+                List<MenuItem> removedItems = items.stream()
+                                                .filter(combinedFilters)
+                                                .collect(Collectors.toList());
+                if (!removedItems.isEmpty()) {
+                    removedItems.forEach(item -> {
+                                            items.remove(item);
+                                            System.out.println("Removed item: " + item);
+                });
+                    if (items.isEmpty()) {
+                        cacheItems.remove(name);
+                    }
+                } else {
+                    System.out.println("No item found with name " + name + "that matches specified conditions.");
+                }
+            } else {
+                cacheItems.remove(name); // Empty key found. Deletes empty key.
+            }
+        } else {
+            System.out.println("Unble to remove item. (Item not found)");
+        }
     }
 
+    @SafeVarargs
+    @Override
+    public final List<MenuItem> getItem(String name, Optional<Predicate<MenuItem>>... filters) {
+        List<MenuItem> items = cacheItems.get(name);
+        if (items == null) {
+            // System.out.println("Unable to retrieve item. (Item not found)");
+            return null;
+        }
+
+        Predicate<MenuItem> combinedFilters = Stream.of(filters)
+                                                    .filter(Optional::isPresent)
+                                                    .map(Optional::get)
+                                                    .reduce(Predicate::and)
+                                                    .orElse(item -> true); // Defaults to return the specified MenuItems in all Branches
+
+        return items.stream()
+                    .filter(combinedFilters)
+                    .collect(Collectors.toList());
+    }
+
+    @Override
+    public void printAllItems(Function<MenuItem, ?> function) {
+        cacheItems.forEach((key, items) -> {
+            System.out.println("MenuItem: " + key);
+            items.stream()
+                .map(function)
+                .forEach(System.out::println);
+        });
+    }
+
+/*
+    public void removeItem(String name, BranchName branch) {
+        List<MenuItem> items = cacheItems.get(name);
+        if (items != null) {
+            items.removeIf(item -> item.getBranch().getBranchName().equals(branch));
+            if (items.isEmpty()) {
+                cacheItems.remove(name);
+            }
+        }
+    }
+*/
+/*
     // Retrieve tiems by branch
    
     public List<MenuItem> getMenuItem(BranchName branch) {
@@ -58,12 +139,7 @@ public class MenuCache {
                    .filter(item -> item.getBranch().getBranchName().equals(branch) && item.getCategory().equals(category))
                    .collect(Collectors.toList());
     }
-
-    public void printAllItems() {
-        menuItem.forEach((key, items) -> {
-            System.out.println("MenuItem: " + key);
-            items.forEach(System.out::println);
-        });
+*/
 
 /*      // Same thing, Different Implementation
 
@@ -76,5 +152,4 @@ public class MenuCache {
             }
         }
 */
-    }
 }
