@@ -49,8 +49,8 @@ public class Cart {
         this.cart = cart;
     }
 
-    public double getCost() {
-        return this.cost;
+    public String getCost() {
+        return String.format("%.2f", this.cost);
     }
 
     public void setCost(double cost) {

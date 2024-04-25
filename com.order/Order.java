@@ -3,18 +3,21 @@ package com.order;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import com.branch.BranchName;
 import com.menu.MenuItem;
 
 public class Order {
     private int orderID;
     private Cart cart;
+    private BranchName branchName;
     private OrderType orderType;
     private OrderStatus status;
     private AutoCancelService cancelService;
 
-    public Order(int orderID, Cart cart, OrderType orderType, OrderStatus status) {
+    public Order(int orderID, Cart cart, BranchName branchName, OrderType orderType, OrderStatus status) {
     this.orderID = orderID;
     this.cart = cart;
+    this.branchName = branchName;
     this.orderType = orderType;
     this.status = status;
     this.cancelService = AutoCancelService.getInstance();
@@ -36,6 +39,14 @@ public class Order {
         this.cart = cart;
     }
 
+    public BranchName getBranchName() {
+        return this.branchName;
+    }
+
+    public void setBranchName(BranchName branchName) {
+        this.branchName = branchName;
+    }
+
     public OrderType getOrderType() {
         return this.orderType;
     }
@@ -51,7 +62,7 @@ public class Order {
     public void setStatus(OrderStatus status) {
         this.status = status;
         if (status == OrderStatus.READY_TO_PICKUP) {
-            cancelService.scheduleCancel(this, 2, TimeUnit.MINUTES);
+            cancelService.scheduleCancel(this, 1, TimeUnit.MINUTES);
         } else {
             cancelService.stopCancelTask(this);
         }

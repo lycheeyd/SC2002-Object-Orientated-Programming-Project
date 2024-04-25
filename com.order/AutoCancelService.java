@@ -24,7 +24,7 @@ public class AutoCancelService {
 
         ScheduledFuture<?> newTask = scheduler.schedule(() -> {
             order.setStatus(OrderStatus.CANCELLED);
-            System.out.println("Order " + order.getOrderID() + " automatically cancelled. (Uncollected beyond specified time)");
+            System.out.println("\n[=+=] Order " + order.getOrderID() + " automatically cancelled. (Uncollected beyond specified time)");
             cancelTasks.remove(order);
         }, time, unit);
 
@@ -41,17 +41,6 @@ public class AutoCancelService {
 
     public void shutdown() {
         scheduler.shutdownNow(); // force shutdown
-/* 
-        scheduler.shutdown(); // wait for all orders to self terminate before shutdown
-        try {
-            if (!scheduler.awaitTermination(30, TimeUnit.SECONDS)) {
-                System.out.println("Forcing shutdown of the task scheduler...");
-                scheduler.shutdownNow();
-            }
-        } catch (InterruptedException e) {
-            System.out.println("Shutdown interrupted.");
-            Thread.currentThread().interrupt();
-        }
-*/
+
     }
 }
