@@ -51,7 +51,7 @@ public class loadEmployee implements loadData {
                         cache.addItem(loginID, new Manager(name, loginID, role, gender, age, branch, password));
                         break;
                     case A:
-                        cache.addItem(loginID, new Admin(name, loginID, role, gender, age, branch, password));
+                        cache.addItem(loginID, new Admin(name, loginID, role, gender, age, new Branch(BranchName.NA, "Everywhere", 1), password));
                         break;
                     }
             }
