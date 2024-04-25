@@ -6,9 +6,9 @@ public class MenuItem {
     private String name;
     private double price;
     private Branch branch;
-    private menuCategory category;
+    private MenuCategory category;
 
-    public MenuItem(String name, double price, Branch branch, menuCategory category) {
+    public MenuItem(String name, double price, Branch branch, MenuCategory category) {
         this.name = name;
         this.price = price;
         this.branch = branch;
@@ -39,11 +39,11 @@ public class MenuItem {
         this.branch = branchid;
     }
 
-    public menuCategory getCategory() {
+    public MenuCategory getCategory() {
         return category;
     }
 
-    public void setCategory(menuCategory category) {
+    public void setCategory(MenuCategory category) {
         this.category = category;
     }
 
