@@ -35,34 +35,5 @@ public class PaymentMethod {
         System.out.println("Processing payment with " + method);
         System.out.println("Payment successful.\n");
         return PaymentStatus.SUCCESSFUL;
-
-/*        
-        while(true) {
-            int paymentMethod = scanner.nextInt();
-            switch (paymentMethod) {
-                case 1:
-                    System.out.println("Processing payment with Credit Card...");
-                    return PaymentStatus.SUCCESSFUL;
-                case 2:
-                    System.out.println("Processing payment with Debit Card...");
-                    return PaymentStatus.SUCCESSFUL;
-                case 3:
-                    System.out.println("Processing payment with Cash...");
-                    return PaymentStatus.SUCCESSFUL;
-                case 4:
-                    System.out.println("Processing payment with Paypal...");
-                    return PaymentStatus.SUCCESSFUL;
-                case 5:
-                    System.out.println("Processing payment with Nets...");
-                    return PaymentStatus.SUCCESSFUL;
-                case 6:
-                    System.out.println("Cancelling payment...");
-                    return PaymentStatus.CANCELLED;
-                default:
-                    System.out.println("Unsupported payment method.");
-                    continue;
-            }
-        }
-        */
     }
 }
