@@ -12,26 +12,29 @@ public class Authenticator {
             if (realPassword.equals("password")) {
                 Scanner scanner = new Scanner(System.in);
                 System.out.println("\nYour password is default password. Please update your password.");
-                changePassword(scanner);
-                scanner.close();
+                changePassword(employee, scanner);
                 return true;
-            } else {
+            } 
+            else {
                 return true;
+
             }
         }
         return false;
+        
     }
 
-    public String changePassword(Scanner scanner) {
+    public String changePassword(Employee employee, Scanner scanner) {
         System.out.print("Enter new password: ");
         String password = scanner.next();
         System.out.print("Re-enter new password: ");
         String rePassword = scanner.next();
         if (password.equals(rePassword)) {
+            employee.setPassword(password);
             return password;
         } else {
             System.out.println("\nPassword does not match. Try again.");
-            return changePassword(scanner);
+            return changePassword(employee, scanner);
         }
     }
 }

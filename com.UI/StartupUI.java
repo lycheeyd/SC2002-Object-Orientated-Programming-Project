@@ -47,6 +47,7 @@ public class StartupUI implements AppUI {
             } catch (Exception e) {
                 System.out.println("\nUnexpected error occurred which has been passed up to apex handler.\n" + e.getMessage());
                 System.out.println("\n[=+=] System reloaded. Please start over.\n");
+                scanner.nextLine();
             }
         } while (choice != 4);
     }

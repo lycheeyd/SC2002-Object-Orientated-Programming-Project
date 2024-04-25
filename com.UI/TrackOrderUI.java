@@ -25,9 +25,8 @@ public class TrackOrderUI implements AppUI {
             }
         } catch (InputMismatchException e) {
             System.out.println("Error input! Enter only numbers.\n");
-            displayMenu(scanner);
-        } finally {
             scanner.nextLine();
+            displayMenu(scanner);
         }
     }
 

@@ -1,9 +1,7 @@
 package com.UI;
 
-import com.users.Staff;
 import com.users.Employee;
 import com.users.Manager;
-import com.branch.Branch;
 import com.branch.BranchName;
 import com.cache.BranchCache;
 import com.cache.EmployeeCache;
@@ -16,16 +14,18 @@ import com.menu.MenuItem;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.function.Predicate;
 
-public class ManagerUI implements AppUI{
+import java.util.*;
 
-    protected static EmployeeCache employeeCache = EmployeeCache.getInstance();
-    protected static MenuCache menuCache = MenuCache.getInstance();
-    protected static BranchCache branchCache = BranchCache.getInstance();
-    protected static OrderCache orderCache = OrderCache.getInstance();
+public class ManagerUI implements AppUI {
+
+    private static EmployeeCache employeeCache = EmployeeCache.getInstance();
+    private static MenuCache menuCache = MenuCache.getInstance();
+    private static BranchCache branchCache = BranchCache.getInstance();
+    private static OrderCache orderCache = OrderCache.getInstance();
 
     private Manager manager;
+
 
     public ManagerUI(Employee employee) {
         this.manager = (Manager) employee;
@@ -34,57 +34,24 @@ public class ManagerUI implements AppUI{
     @Override
     public void displayMenu(Scanner scanner){
         
-        System.out.println("[=+=] Manager Interface [=+=]");
-        System.out.println("(1) Display New Orders");
-        System.out.println("(2) View Order Details");
-        System.out.println("(3) Process Order");
-        System.out.println("(4) Display Staff List");
-        System.out.println("(5) Add/Edit/Remove Menu items/price/availability");
-        System.out.println("(6) Logout");
-        System.out.print("\nWaiting for user input: ");
-
         int choice;
 
         do {
+            displayInstructions();
+
             choice = scanner.nextInt();
             switch (choice) {
                 case 1:
-                    System.out.println("Displaying new orders...");
-                    Predicate<Order> filter = item -> item.getStatus() == OrderStatus.NEW;
-                    orderCache.printFilteredItems(filter);
-                    employeeCache.getFilteredItems(BranchName.getFilter(manager.getBranch().getBranchName()));
+                    displayNewOrders();
                     break;
                 case 2:
-                    try {
-                        System.out.println("Enter the order ID: ");
-                        int orderID = scanner.nextInt();
-                        Order order = orderCache.getItem(orderID);
-                        if (order != null) {
-                            System.out.println(order);
-                            break;
-                        }
-                    } catch (InputMismatchException e) {
-                        System.out.println("Enter only numbers! Try again.");
-                    }
+                    viewOrderDetails(scanner);
+                    break;
                 case 3:
-                    try {
-                        System.out.println("Enter order ID to process: ");
-                        int orderId = scanner.nextInt();
-                        Order order = orderCache.getItem(orderId);
-                        if (order != null && order.getStatus() == OrderStatus.IN_PROGRESS) {
-                            order.setStatus(OrderStatus.READY_TO_PICKUP);
-                            System.out.println("Order processed successfully");
-                            order.setStatus(OrderStatus.COMPLETED);
-                        } else {
-                            System.out.println("Order not found or already processed.");
-                        }
-                    } catch (Exception e) {
-                        System.out.println("An error occurred while processing order: " + e.getMessage());
-                    }
+                    processOrder(scanner);
                     break;
                 case 4:
-                    System.out.println("Displaying staff list...");
-                    manager.displayStaffList();
+                    displayStaffList();
                     break;
                 case 5:
                     manageMenu(scanner);
@@ -96,14 +63,69 @@ public class ManagerUI implements AppUI{
                     System.out.println("Invalid response. Try again.");
                     break;
             }
-        } while (choice != 1 && choice != 2 && choice != 3 && choice != 4 && choice !=5 && choice !=6);
-    }  
-    public void manageMenu(Scanner scanner) {
+        } while (choice != 6);
+    }
+
+    private void displayInstructions() {
+        System.out.println("\n[=+=] Manager Interface [=+=]\n");
+        System.out.println("(1) Display New Orders");
+        System.out.println("(2) View Order Details");
+        System.out.println("(3) Process Order");
+        System.out.println("(4) Display Staff List");
+        System.out.println("(5) Add/Edit/Remove Menu items/price/availability");
+        System.out.println("(6) Logout");
+        System.out.print("\nWaiting for user input: ");
+    }
+
+    private void displayNewOrders() {
+        System.out.println("Displaying new orders...");
+        orderCache.printFilteredItems(OrderStatus.NEW);
+        employeeCache.getItem(manager.getLoginID());
+    }
+
+    private void viewOrderDetails(Scanner scanner) {
+        try {
+            System.out.println("Enter the order ID: ");
+            int orderID = scanner.nextInt();
+            Order order = orderCache.getItem(orderID);
+            if (order != null) {
+                System.out.println(order);
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Enter only numbers! Try again.");
+        }
+    }
+
+    private void processOrder(Scanner scanner) {
+        try {
+            System.out.println("Enter order ID to process: ");
+            int orderId = scanner.nextInt();
+            Order order = orderCache.getItem(orderId);
+            if (order != null && order.getStatus() == OrderStatus.IN_PROGRESS) {
+                order.setStatus(OrderStatus.READY_TO_PICKUP);
+                System.out.println("Order processed successfully.");
+                order.setStatus(OrderStatus.COMPLETED);
+            } else {
+                System.out.println("Order not found or already processed.");
+            }
+        } catch (Exception e) {
+            System.out.println("An error occurred while processing order: " + e.getMessage());
+        }
+    }
+
+    private void displayStaffList() {
+        System.out.println("Displaying staff list...");
+        employeeCache.printAllItems(Employee::toString);
+    }
+
+    private void manageMenu(Scanner scanner) {
         System.out.println("Select function");
         System.out.println("(1) Add Menu Item");
         System.out.println("(2) Edit Item");
         System.out.println("(3) Remove Item");
         System.out.println("(4) Exit");
+
+        List<MenuItem> menu = menuCache.getFilteredItems(manager.getBranch().getBranchName());
 
         int choice;
         
@@ -112,58 +134,13 @@ public class ManagerUI implements AppUI{
             scanner.nextLine();
             switch (choice) {
                 case 1:
-                    System.out.println("Enter the name of the menu item to add: ");
-                    String name = addMenuItem(scanner);
-
-                    MenuItem duplicateItem = menuCache.getItem(name);
-
-                    if (duplicateItem == null) {
-                        System.out.println("Enter name of new menu item: ");
-                        String nameNew = addMenuItem(scanner);
-
-                        System.out.println("Enter price of new menu item: ");
-                        Double price = menuPrice(scanner);
-
-                        System.out.println("Enter category of new menu item: ");
-                        menuCategory category = enterCategory(scanner);
-
-                        MenuItem newItem = new MenuItem(nameNew, price, manager.getBranch(), category); 
-                        menuCache.addItem(nameNew, newItem);
-
-                        System.out.println("Menu item added successfully.");
-                    }
-                    else
-                        System.out.println("Menu item already exist.");
+                    addMenuItem(scanner, menu);
                     break;
                 case 2:
-                    System.out.println("Enter the name of the menu item to edit: ");
-                    String originalName = addMenuItem(scanner);
-
-                    MenuItem existingItem = menuCache.getItem(originalName);
-
-                    if (existingItem != null) {
-                        System.out.println("Enter new name of menu item: ");
-                        String newName = newMenuItem(scanner);
-
-                        System.out.println("Enter new price of menu item: ");
-                        Double newPrice = newPrice(scanner);
-
-                        System.out.println("Enter new category of menu item: ");
-                        menuCategory newCategory = newCategory(scanner);
-
-                        MenuItem editedItem = new MenuItem(newName, newPrice, manager.getBranch(), newCategory);
-                        menuCache.addItem(newName, editedItem);
-
-                        menuCache.removeItem(originalName);
-
-                        System.out.println("Menu item added successfully.");
-                    }
+                    editMenuItem(scanner, menu);
                     break;
                 case 3:
-                    System.out.println("Enter name of menu item to remove");          
-                    String nameremove = scanner.nextLine();
-                    menuCache.removeItem(nameremove);
-                    System.out.println(nameremove + " removed");
+                    removeMenuItem(scanner, menu);
                     break;
                 case 4:
                     return;
@@ -174,13 +151,94 @@ public class ManagerUI implements AppUI{
         } while (choice != 1 && choice != 2 && choice != 3 && choice != 4);
     }
 
-    private String addMenuItem(Scanner scanner){
+    private void addMenuItem(Scanner scanner, List<MenuItem> menu){
+        System.out.println("\nAvailable Menu Items:");
+        for (int i = 0; i < menu.size() ; i++) {
+                System.out.printf("(%d) %s\n", i+1, menu.get(i));
+            }
+
+        System.out.println("Enter the name of the menu item to add: ");
+
+        String name = scanner.nextLine();
+        BranchName branchName = manager.getBranch().getBranchName();
+        List<MenuItem> duplicateItem = menuCache.getItem(name, Optional.of(branchName));
+
+        if (duplicateItem == null) {
+        	System.out.println("Enter price of new menu item: ");
+            Double price = menuPrice(scanner);
+
+            System.out.println("Enter category of new menu item: ");
+            menuCategory category = enterCategory(scanner);
+
+            MenuItem newItem = new MenuItem(name, price, manager.getBranch(), category); 
+            menuCache.addItem(name, newItem);
+
+            System.out.println("Menu item added successfully.");
+            return;
+        } else {
+            System.out.println("Menu item already exists.");
+        }
+    }
+
+    private void editMenuItem(Scanner scanner, List<MenuItem> menu){
+        System.out.println("\nAvailable Menu Items:");
+        for (int i = 0; i < menu.size() ; i++) {
+                System.out.printf("(%d) %s\n", i+1, menu.get(i));
+            }
+
+        System.out.println("Enter the name of the menu item to edit: ");
+
+        String originalName = setMenuItem(scanner);
+        BranchName branchName = manager.getBranch().getBranchName();
+        List<MenuItem> existingItem = menuCache.getItem(originalName, Optional.of(branchName));
+
+        if (existingItem != null) {
+            System.out.println("Enter new price of menu item: ");
+            Double newPrice = newPrice(scanner);
+
+            System.out.println("Enter new category of menu item: ");
+            menuCategory newCategory = newCategory(scanner);
+
+            MenuItem editedItem = new MenuItem(originalName, newPrice, manager.getBranch(), newCategory);
+            menuCache.addItem(originalName, editedItem);
+
+            menuCache.removeItem(originalName);
+
+            System.out.println("Menu item edited successfully.");
+            return;
+        } else {
+            System.out.println("Menu item not found.");
+        }
+    }
+
+
+    private void removeMenuItem(Scanner scanner, List<MenuItem> menu){
+        System.out.println("\nAvailable Menu Items:");
+        for (int i = 0; i < menu.size() ; i++) {
+                System.out.printf("(%d) %s\n", i+1, menu.get(i));
+            }
+
+        System.out.println("Enter the name of the menu item to remove: ");
+
+        String itemName = scanner.nextLine();
+        BranchName branchName = manager.getBranch().getBranchName();
+        List<MenuItem> itemToRemove = menuCache.getItem(itemName, Optional.of(branchName));
+
+        if (itemToRemove != null) {
+            menuCache.removeItem(itemName);
+            System.out.println(itemName + " removed");
+        } else {
+            System.out.println("Menu item not found.");
+        }
+    }
+    
+    private String setMenuItem(Scanner scanner){
         try {
             String name = scanner.nextLine();
             return name;
         } catch (Exception e) {
             System.out.println("Invalid input. Enter a name: ");
-            return addMenuItem(scanner);
+            return setMenuItem(scanner);
         }
     }
 
@@ -189,17 +247,17 @@ public class ManagerUI implements AppUI{
             double price = scanner.nextDouble();
             return price;
         } catch (Exception e) {
-            System.out.println("Input numbers only.");
+            System.out.println("Input numbers only. ");
             return menuPrice(scanner);
         }
     }
 
     private menuCategory enterCategory(Scanner scanner){
         System.out.println("Available categories: ");
-        System.out.println(menuCategory.values());
-        System.out.print("\nEnter category: ");
+        Arrays.stream(menuCategory.values()).forEach(System.out::println);
+        System.out.print("Enter category: ");
         try {
-            return menuCategory.valueOf(scanner.nextLine());
+            return menuCategory.valueOf(scanner.next());
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid category. Try again. ");
             return enterCategory(scanner);
@@ -228,14 +286,14 @@ public class ManagerUI implements AppUI{
 
     private menuCategory newCategory(Scanner scanner){
         System.out.println("Available categories: ");
-        System.out.println(menuCategory.values());
-        System.out.print("\nEnter category: ");
+        Arrays.stream(menuCategory.values()).forEach(System.out::println);
+        System.out.print("Enter category: ");
         try {
-            return menuCategory.valueOf(scanner.nextLine());
+            return menuCategory.valueOf(scanner.next());
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid category. Try again. ");
             return newCategory(scanner);
         }   
     }
-    
+
 }

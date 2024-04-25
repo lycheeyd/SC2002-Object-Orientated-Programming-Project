@@ -2,6 +2,10 @@ package com.UI;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.function.Predicate;
+
+import org.apache.commons.collections.functors.PredicateTransformer;
+
 import com.users.Admin;
 import com.users.Employee;
 import com.cache.EmployeeCache;
@@ -13,6 +17,7 @@ import com.users.Staff;
 import com.users.Gender;
 import com.branch.Branch;
 import com.payment.PaymentMethod;
+import com.branch.BranchName;
 
 public class AdminUI {
 
@@ -23,36 +28,42 @@ public class AdminUI {
 
     
     private Admin admin;
+    int choice = 0;
 
     public AdminUI(Employee employee) {
         this.admin = (Admin) employee;
     }
 
     public void displayMenu(Scanner scanner){
-        System.out.println("[=+=] Admin Interface [=+=]");
-        System.out.println("(1) Add Staff Accounts");
-        System.out.println("(2) Remove Staff Accounts");
-        System.out.println("(3) Edit Staff Accounts");
-        System.out.println("(4) Display staff list");
-        System.out.println("(5) Assign managers to branch");
-        System.out.println("(6) Promote staff");
-        System.out.println("(7) Transfer a staff");
-        System.out.println("(8) Transfer a manager");
-        System.out.println("(9) Add/Remove payment method");
-        System.out.println("(10) Open/Close branch");
-        System.out.println("(11) Logout");
 
-        int choice = 0;
+            do {
+                
+            System.out.println("[=+=] Admin Interface [=+=]");
+            System.out.println("(1) Add Staff Accounts");
+            System.out.println("(2) Remove Staff Accounts");
+            System.out.println("(3) Edit Staff Accounts");
+            System.out.println("(4) Display staff list");
+            System.out.println("(5) Assign managers to branch");
+            System.out.println("(6) Promote staff");
+            System.out.println("(7) Transfer a staff");
+            System.out.println("(8) Transfer a manager");
+            System.out.println("(9) Add/Remove payment method");
+            System.out.println("(10) Open/Close branch");
+            System.out.println("(11) Logout");
+            System.out.print("\nWaiting for user input: ");
+
+
         String loginID;
         Employee staff;
-            do {
+        Branch branch;
+                
                 try {
                     choice = scanner.nextInt();
                     switch (choice) {
                         case 1:
                             //check if manager and staff quota are h
-t
-                            Branch branch = enterBranch(scanner);
+
+                            branch = enterBranch(scanner);
                             if(branch.quotaFull(branch, employeeCache)){
                                 break;
                             }
@@ -77,8 +88,7 @@ t
                             editAccount(scanner,staff);
                             break;
                         case 4:
-                            
-                            admin.displayStaffList(scanner);
+                            filterStaffList(scanner);
                             break;
                         case 5:
                             loginID = enterLoginID(scanner);
@@ -92,6 +102,9 @@ t
                             break;
                         case 6:
                             //check if the promotion causes manager quota to be hit
+                            loginID = enterLoginID(scanner);
+                            staff = employeeCache.getItem(loginID);
+                            branch = staff.getBranch();
                             if (branch.getStaffCount() - 1 <= 4 && branch.getManagerCount() == 1) {
                                 System.out.println("error: manager quota has been reached");
                                 break;
@@ -104,7 +117,6 @@ t
                                 System.out.println("error: manager quota has been reached");
                                 break;
                             }
-                            loginID = enterLoginID(scanner);
                             admin.promoteStaff(loginID);
                             break;
                         case 7:
@@ -120,6 +132,7 @@ t
                                 break;
                             }
                             admin.transferStaff(staff,branch);
+                            System.out.println("Staff transferred sucessfully!");
                             break;
                         case 8:
                             loginID = enterLoginID(scanner);
@@ -138,20 +151,8 @@ t
                         case 9:
                             editpayments(scanner);
                             break;
-                        case 10:
-                            branch = enterBranch(scanner);
-                            System.out.println("Enter Branch status: 1 for Open, 0 for Close");
-                            int status = scanner.nextInt();
-                            if (status == 1){
-                                admin.changeBranchStatus(branch, true);
-                            }
-                            else if (status == 2){
-                                admin.changeBranchStatus(branch, false);
-                            }
-                            else{
-                                System.out.println("wrong input.");
-                            }
-                            
+                        case 10:   
+                            openCloseBranch(scanner);
                             break;
                         case 11:
                             System.out.println("Logging Out...");
@@ -163,43 +164,43 @@ t
                 } catch(InputMismatchException e) {
                     System.err.println("Error Input! Enter only numbers!");
                 }
-            } while (choice < 0 || choice > 11);
+            } while (choice > 0 || choice < 11);
     }
 
     private String enterName(Scanner scanner) {
         System.out.println("Enter staff name: ");
         try {
-            String name = scanner.nextLine();
+            String name = scanner.next();
             return name;
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Invalid input. Try again. ");
-            return scanner.nextLine();
+            return scanner.next();
             }
         catch (InputMismatchException e) {
             System.out.println("Invalid input. Try again. ");
-            return scanner.nextLine();
+            return scanner.next();
             }
     }
 
     private String enterLoginID(Scanner scanner) {
         System.out.println("Enter Login ID: ");
         try {
-            String name = scanner.nextLine();
+            String name = scanner.next();
             return name;
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Invalid input. Try again. ");
-            return scanner.nextLine();
+            return scanner.next();
             }
         catch (InputMismatchException e) {
             System.out.println("Invalid input. Try again. ");
-            return scanner.nextLine();
+            return scanner.next();
             }
         }
 
     private StaffRole enterRole(Scanner scanner){
         System.out.println("Enter Staff Role [Staff(S) / Manager (M)]: ");
         try {
-            char str_role = Character.toUpperCase(scanner.nextLine().charAt(0));
+            char str_role = Character.toUpperCase(scanner.next().charAt(0));
             if (str_role == 'S') {
                 return StaffRole.S;
             }
@@ -223,7 +224,7 @@ t
     private Gender enterGender(Scanner scanner){
         System.out.print("Enter Staff Gender (M/F): ");
         try {
-            char str_gender = Character.toUpperCase(scanner.nextLine().charAt(0));
+            char str_gender = Character.toUpperCase(scanner.next().charAt(0));
             if (str_gender == 'M') {
                 return Gender.M;
             }
@@ -246,7 +247,7 @@ t
 
     private int enterAge(Scanner scanner){
         System.out.print("Enter Staff Age: ");
-        String input = scanner.nextLine();
+        String input = scanner.next();
         try{
             int age = Integer.parseInt(input);
             return age;
@@ -256,21 +257,29 @@ t
         }
     }
 
+    private BranchName enterBranchName(Scanner scanner) {
+        System.out.println("\nAvailable branches: ");
+        branchCache.printAllItems(Branch::getBranchName);
+
+        System.out.print("\nSelect branch: ");
+        try {
+            BranchName branchName = BranchName.valueOf(scanner.next().toUpperCase());
+            return branchName;
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid branch entered. Try again.");
+            return enterBranchName(scanner);            
+        }
+    }
+
     private Branch enterBranch(Scanner scanner){
-        System.out.println("Available branches:");
-        branchCache.printAllItems();
-        System.out.print("\nAssign branch: ");
-        scanner.
-        
-
-
-
+        BranchName branchName = enterBranchName(scanner);
+        return branchCache.getItem(branchName);
     }
 
     private String enterPassword(Scanner scanner){
         try{
             System.out.println("Enter staff password: ");
-            return scanner.nextLine();
+            return scanner.next();
         }catch(Exception e){
             System.out.println("Invalid input");
             return enterPassword(scanner);
@@ -310,11 +319,11 @@ t
         switch (choice) {
             case 1:
                 System.out.print("Enter new payment method: ");
-                admin.editpayments(scanner.nextLine(),true);
+                admin.editpayments(scanner.next(),true);
                 break;
             case 2:
                 System.out.print("Enter payment method to remove: ");
-                admin.editpayments(scanner.nextLine(),false);
+                admin.editpayments(scanner.next(),false);
             default:
                 System.out.println("Invalid input");
                 break;
@@ -331,11 +340,80 @@ t
         int choice = scanner.nextInt();
         switch (choice) {
             case 1:
-                admin.
+                employeeCache.printAllItems(Employee::toString);
                 break;
-        
+
+            case 2:
+                BranchName bname = enterBranchName(scanner);
+                employeeCache.printFilteredItems(bname);
+                break;
+
+            case 3:
+                StaffRole role = enterRole(scanner);
+                employeeCache.printFilteredItems(role);
+                break;
+            
+            case 4:
+                Gender gender = enterGender(scanner);
+                employeeCache.printFilteredItems(gender);
+                break;
+
+            case 5:
+                int age = enterAge(scanner);
+                Predicate<Object> ageFilter = o -> ((Employee) o).getAge() == age;
+                employeeCache.printFilteredItems(ageFilter);
+                break;
             default:
                 break;
         }
+
+    }
+
+    private void openCloseBranch(Scanner scanner)
+    {
+        System.out.println("(0) To close a branch");
+        System.out.println("(1) To open a branch");
+        int choice = scanner.nextInt();
+        switch (choice) {
+            case 0:
+                removeBranch(scanner);
+                break;
+            case 1:
+                openBranch(scanner);
+            default:
+                System.out.println("Invalid input");
+                break;
+        }
+    }
+
+    private BranchName enterAllBranchNames(Scanner scanner) {
+        System.out.println("\nAvailable branches: ");
+        //branchCache.printAllItems(Branch::getBranchName);
+        System.out.println("JP/JE/NTU");
+        System.out.print("\nSelect branch: ");
+        try {
+            BranchName branchName = BranchName.valueOf(scanner.next().toUpperCase());
+            return branchName;
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid branch entered. Try again.");
+            return enterBranchName(scanner);            
+        }
+    }
+
+    private void removeBranch(Scanner scanner)
+    {
+        Branch branch = enterBranch(scanner);
+        admin.removeBranch(branch.getBranchName(),branchCache);
+    }
+
+    private void openBranch(Scanner scanner)
+    {
+        System.out.print("\nEnter new branch name(JP/NTU/JE): ");
+        BranchName branchName = enterAllBranchNames(scanner);
+        System.out.println("Enter new branch location:");
+        String location = scanner.next();
+        System.out.println("Enter new branch staff quota:");
+        int quota = scanner.nextInt();
+        branchCache.addItem(branchName, new Branch(branchName,location,quota));
     }
 }

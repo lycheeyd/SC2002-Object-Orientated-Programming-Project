@@ -76,9 +76,9 @@ public class OrderUI implements AppUI {
                 cart.addCart(menu.get(choice-1));
             } catch (InputMismatchException e) {
                 System.out.println("Error input! Enter only numbers.");
+                scanner.nextLine();
             } catch (IndexOutOfBoundsException e) {
                 System.out.println("Invalid Item! Try again.");
-            } finally {
                 scanner.nextLine();
             }
         } while(true);
@@ -120,10 +120,10 @@ public class OrderUI implements AppUI {
                 System.out.println("\nPayment Cancelled or Failed! Try again.");
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Error input! Enter only numbers.");        
+                System.out.println("Error input! Enter only numbers.");
+                scanner.nextLine();
             } catch (IndexOutOfBoundsException e) {
                 System.out.println("Invalid payment method. Try again.");
-            } finally {
                 scanner.nextLine();
             }
         } while(true);
