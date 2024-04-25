@@ -1,12 +1,17 @@
 package com.branch;
 
 import com.cache.EmployeeCache;
+import com.users.StaffRole;
+
+import java.util.function.Predicate;
+
+import com.menu.MenuItem;
+
 
 public class Branch {
     private BranchName branchName;
     private String location;
     private int staffQuota;
-    private boolean branchStatus;
 
     public Branch(BranchName branchName, String location, int staffQuota) {
         this.branchName = branchName;
@@ -16,16 +21,16 @@ public class Branch {
 
 //return no. of staff + manager, logic done in UI
     public int getStaffCount(){
-        return cache.getFilteredItems(Branch.getBranchName(), StaffRole.S).size();
+        return EmployeeCache.getInstance().getFilteredItems(this.branchName,StaffRole.S).size();
     }
 
     public int getManagerCount(){
-        return cache.getFilteredItems(Branch.getBranchName(), StaffRole.M).size();
+        return EmployeeCache.getInstance().getFilteredItems(this.branchName,StaffRole.M).size();
     }
 
     public boolean quotaFull(Branch branch, EmployeeCache cache){
-        int staffCount = cache.getFilteredItems(Branch.getBranchName(), StaffRole.S).size();
-        int managerCount = cache.getFilteredItems(Branch.getBranchName(), StaffRole.M).size();
+        int staffCount = cache.getFilteredItems(branch.getBranchName(), StaffRole.S).size();
+        int managerCount = cache.getFilteredItems(branch.getBranchName(), StaffRole.M).size();
         if (staffCount + managerCount == staffQuota){
             System.out.println("error: staff quota has been reached");
             return true;
@@ -34,8 +39,8 @@ public class Branch {
     }
 
     public boolean managerFull(Branch branch, EmployeeCache cache){
-        int staffCount = cache.getFilteredItems(Branch.getBranchName(), StaffRole.S).size();
-        int managerCount = cache.getFilteredItems(Branch.getBranchName(), StaffRole.M).size();
+        int staffCount = cache.getFilteredItems(branch.getBranchName(), StaffRole.S).size();
+        int managerCount = cache.getFilteredItems(branch.getBranchName(), StaffRole.M).size();
         if (staffCount <= 4 && managerCount == 1) {
             System.out.println("error: manager quota has been reached");
             return true;
@@ -51,16 +56,7 @@ public class Branch {
         return false;
     }
 
-
-// Getters & Setters
-
-    public boolean getBranchStatus(){
-        return this.branchStatus;
-    }
-
-    public void setBranchStatus(boolean stat){
-        this.branchStatus = stat;
-    }
+    // Getters & Setters
 
     public BranchName getBranchName() {
         return this.branchName;
