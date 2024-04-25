@@ -20,10 +20,6 @@ public class Staff extends Employee {
         super(name, loginID, role, gender, age, branch, password);
     }
 
-    public void viewOrderDetails(Scanner scanner) {
-        
-    }
-
     public void processOrder(OrderStatus status) {
         if (status == OrderStatus.NEW) {
             status = OrderStatus.IN_PROGRESS;
@@ -33,7 +29,7 @@ public class Staff extends Employee {
         }
     }
 
-    public void readytopickupOrder(OrderStatus status) {
+    public void readyToPickupOrder(OrderStatus status) {
         if (status == OrderStatus.IN_PROGRESS) {
             status = OrderStatus.READY_TO_PICKUP;
 

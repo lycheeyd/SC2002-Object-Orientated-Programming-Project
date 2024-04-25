@@ -149,7 +149,7 @@ public class AdminUI {
                             admin.transferManager(staff,branch);
                             break;
                         case 9:
-                            editpayments(scanner);
+                            editPayments(scanner);
                             break;
                         case 10:   
                             openCloseBranch(scanner);
@@ -312,18 +312,18 @@ public class AdminUI {
         }
     }
 
-    private void editpayments(Scanner scanner){
+    private void editPayments(Scanner scanner){
         System.out.println("(1) to add payment method");
         System.out.println("(2) to remove payment method");
         int choice = scanner.nextInt();
         switch (choice) {
             case 1:
                 System.out.print("Enter new payment method: ");
-                admin.editpayments(scanner.next(),true);
+                admin.editPayments(scanner.next(),true);
                 break;
             case 2:
                 System.out.print("Enter payment method to remove: ");
-                admin.editpayments(scanner.next(),false);
+                admin.editPayments(scanner.next(),false);
             default:
                 System.out.println("Invalid input");
                 break;

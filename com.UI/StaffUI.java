@@ -76,7 +76,7 @@ public class StaffUI implements AppUI {
                             int orderId = scanner.nextInt();
                             Order order = orderCache.getItem(orderId);
                             if (order != null) {
-                                staff.readytopickupOrder(order.getStatus());
+                                staff.readyToPickupOrder(order.getStatus());
                             }
                         } catch (Exception e) {
                             System.out.println("An error occurred while completing order: " + e.getMessage());
