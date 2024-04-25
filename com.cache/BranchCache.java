@@ -10,7 +10,6 @@ import com.branch.BranchName;
 public class BranchCache extends AppCache<BranchName, Branch, Branch>{
 
     private static BranchCache instance;
-//    protected Map<BranchName, Branch> cacheItems = new HashMap<>();
 
     private BranchCache() {}
 
@@ -33,7 +32,7 @@ public class BranchCache extends AppCache<BranchName, Branch, Branch>{
 
     @SafeVarargs
     @Override
-    public final void removeItem(BranchName name, Optional<Predicate<Branch>>... filters) {
+    public final void removeItem(BranchName name, Optional<Predicate<Object>>... filters) {
         if (cacheItems.containsKey(name)) {
             cacheItems.remove(name);
             System.out.println(name + " is removed.");

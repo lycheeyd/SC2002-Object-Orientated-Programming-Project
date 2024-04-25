@@ -37,8 +37,8 @@ public class MenuCache extends AppCache<String, List<MenuItem>, MenuItem> {
 
     @SafeVarargs
     @Override
-    public final void removeItem(String name, Optional<Predicate<MenuItem>>... filters) {
-        Predicate<MenuItem> combinedFilters = Stream.of(filters)
+    public final void removeItem(String name, Optional<Predicate<Object>>... filters) {
+        Predicate<Object> combinedFilters = Stream.of(filters)
                                                     .filter(Optional::isPresent)
                                                     .map(Optional::get)
                                                     .reduce(Predicate::and)
@@ -102,54 +102,4 @@ public class MenuCache extends AppCache<String, List<MenuItem>, MenuItem> {
         });
     }
 
-/*
-    public void removeItem(String name, BranchName branch) {
-        List<MenuItem> items = cacheItems.get(name);
-        if (items != null) {
-            items.removeIf(item -> item.getBranch().getBranchName().equals(branch));
-            if (items.isEmpty()) {
-                cacheItems.remove(name);
-            }
-        }
-    }
-*/
-/*
-    // Retrieve tiems by branch
-   
-    public List<MenuItem> getMenuItem(BranchName branch) {
-        return menuItem.values().stream()
-                   .flatMap(List::stream)
-                   .filter(item -> item.getBranch().getBranchName().equals(branch))
-                   .collect(Collectors.toList());
-    }
-
-    // Retrieve items by category
-    
-    public List<MenuItem> getMenuItem(menuCategory category) {
-        return menuItem.values().stream()
-                   .flatMap(List::stream)
-                   .filter(item -> item.getCategory().equals(category))
-                   .collect(Collectors.toList());
-    }
-
-    // Retrieve items by name, branch, and category
-    
-    public List<MenuItem> getMenuItem(String name, BranchName branch, menuCategory category) {
-        return menuItem.getOrDefault(name, new ArrayList<>()).stream()
-                   .filter(item -> item.getBranch().getBranchName().equals(branch) && item.getCategory().equals(category))
-                   .collect(Collectors.toList());
-    }
-*/
-
-/*      // Same thing, Different Implementation
-
-        for (Map.Entry<String, List<MenuItem>> entry : menuItem.entrySet()) {
-            String key = entry.getKey();
-            List<MenuItem> items = entry.getValue();
-            System.out.println("MenuItem: " + key);
-            for (MenuItem item : items) {
-                System.out.println(item);
-            }
-        }
-*/
 }

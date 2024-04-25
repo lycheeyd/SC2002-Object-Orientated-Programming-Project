@@ -31,7 +31,7 @@ public class EmployeeCache extends AppCache<String, Employee, Employee>{
 
     @SafeVarargs
     @Override
-    public final void removeItem(String loginID, Optional<Predicate<Employee>>... filters) {
+    public final void removeItem(String loginID, Optional<Predicate<Object>>... filters) {
         if (cacheItems.containsKey(loginID)) {
             cacheItems.remove(loginID);
             System.out.println(loginID + " is removed.");

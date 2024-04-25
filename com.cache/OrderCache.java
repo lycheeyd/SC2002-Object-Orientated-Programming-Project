@@ -32,7 +32,7 @@ public class OrderCache extends AppCache<Integer, Order, Order> {
 
     @SafeVarargs
     @Override
-    public final void removeItem(Integer orderID, Optional<Predicate<Order>>... filters) {
+    public final void removeItem(Integer orderID, Optional<Predicate<Object>>... filters) {
         if (cacheItems.containsKey(orderID)) {
             cacheItems.remove(orderID);
             System.out.println(orderID + "is removed.");

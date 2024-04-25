@@ -11,6 +11,11 @@ public abstract class AppCache<K, T, T2> implements CacheFetcher<K, T, T2> , Cac
 
     protected Map<K, T> cacheItems = new HashMap<>();
 
+    @Override
+    public Map<K, T> getAllItems() {
+        return cacheItems;
+    }
+
     @SafeVarargs
     @Override
     public final List<T2> getFilteredItems(Predicate<Object>... filters) {
