@@ -27,7 +27,7 @@ public class Manager extends Staff {
         return new Manager(staff.getName(), staff.getLoginID(), staff.getRole(), staff.getGender(), staff.getAge(), staff.getBranch(), staff.getPassword());
     }
 
-    public void viewOrderDetails(Scanner scanner) {
+    /*public void viewOrderDetails(Scanner scanner) {
         
     }
 
@@ -36,8 +36,7 @@ public class Manager extends Staff {
     }
 
     public void displayStaffList() {
-        System.out.println("Displaying staff list...");
-        EmployeeCache.printAllItems();
+        
     }
 
     public void addMenuItem(Scanner scanner, BranchName branch) {
@@ -50,7 +49,7 @@ public class Manager extends Staff {
 
     public void removeMenuItem(Scanner scanner, BranchName branch) {
     
-    }
+    }*/
 
     
 

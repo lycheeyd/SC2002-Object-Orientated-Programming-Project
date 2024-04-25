@@ -4,12 +4,7 @@ import com.branch.BranchName;
 import com.branch.Branch;
 import com.cache.BranchCache;
 import com.cache.EmployeeCache;
-import com.users.StaffRole;
-import com.users.Staff;
-import com.users.Gender;
 import com.payment.PaymentMethod;
-
-import java.util.Scanner;
 
 public class Admin extends Employee{
 
@@ -56,9 +51,9 @@ public class Admin extends Employee{
         emp.setPassword(password);
     }
 
-    public void displayStaffList(Scanner scanner){
+    /*public void displayStaffList(Scanner scanner){
         employeeCache.printAllItems();
-    }
+    }*/
 
     /*public void assignManagers(){
 
@@ -91,7 +86,7 @@ public class Admin extends Employee{
     }
 
     public void changeBranchStatus(Branch branch, Boolean bool){
-        branch.setBranchStatus(bool);
+        //branch.setBranchStatus(bool);
     }
 
     public void removeBranch(BranchName branchName, BranchCache branchCache){
