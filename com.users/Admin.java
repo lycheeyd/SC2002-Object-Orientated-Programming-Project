@@ -51,47 +51,30 @@ public class Admin extends Employee{
         emp.setPassword(password);
     }
 
-    /*public void displayStaffList(Scanner scanner){
-        employeeCache.printAllItems();
-    }*/
-
-    /*public void assignManagers(){
-
-    }*/
-
     public void promoteStaff(String loginID){
         Employee staff = employeeCache.getItem(loginID);
         employeeCache.removeItem(loginID);
-        employeeCache.addItem(loginID,new Manager(staff.getName(), staff.getLoginID(), staff.getRole(), staff.getGender(), staff.getAge(), staff.getBranch(), staff.getPassword()));
+        employeeCache.addItem(loginID,new Manager(staff.getName(), staff.getLoginID(), StaffRole.M, staff.getGender(), staff.getAge(), staff.getBranch(), staff.getPassword()));
+        System.out.println("You have successfully promoted " + staff.getName() + " to Manager.");
     }
-
 
     //transfer staff among branches
     public void transferStaff(Employee emp, Branch branch){
         emp.setBranch(branch);
+        System.out.println(emp.getName() + " has been transferred successfully");
     }
 
-    public void transferManager(Employee emp, Branch branch){
-        emp.setBranch(branch);
-    }
-
-    public void editpayments(String method,Boolean bool){
+    public void editPayments(String method,Boolean bool){
         if (bool) {
             PaymentMethod.addValue(method);
         }
         else{
             PaymentMethod.removeValue(method);
         }
-
-    }
-
-    public void changeBranchStatus(Branch branch, Boolean bool){
-        //branch.setBranchStatus(bool);
     }
 
     public void removeBranch(BranchName branchName, BranchCache branchCache){
         branchCache.removeItem(branchName);
     }
-
 
 }
