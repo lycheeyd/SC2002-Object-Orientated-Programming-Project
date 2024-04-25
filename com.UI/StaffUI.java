@@ -30,11 +30,11 @@ public class StaffUI implements AppUI {
     public void displayMenu(Scanner scanner) {
 
         do {
-            System.out.println("[=+=] Staff Interface [=+=]");
+            System.out.println("\n[=+=] Staff Interface [=+=]");
             System.out.println("(1) Display New Orders");
             System.out.println("(2) View Order Details");
             System.out.println("(3) Process Order");
-            System.out.println("(4) Complete Order");
+            System.out.println("(4) Order is Ready");
             System.out.println("(5) Track Order");
             System.out.println("(6) Logout");
             System.out.print("\nWaiting for user input: ");
@@ -44,55 +44,19 @@ public class StaffUI implements AppUI {
                 switch (choice) {
                     case 1:
                         System.out.println("Displaying new orders...");
-                        orderCache.printFilteredItems(OrderStatus.NEW);
+                        orderCache.printFilteredItems(OrderStatus.NEW, staff.getBranch().getBranchName());
                         break;
                     case 2:
-                        try {
-                            System.out.println("Enter the order ID: ");
-                            int orderID = scanner.nextInt();
-                            Order order = orderCache.getItem(orderID);
-                            if (order != null) {
-                                System.out.println(order.toString());
-                            }
-                        } catch (Exception e) {
-                            System.out.println("An error occurred while viewing order details: " + e.getMessage());
-                        }
+                        viewOrderDetails(scanner);
                         break;
                     case 3:
-                        try {
-                            System.out.println("Enter order ID to process: ");
-                            int orderId = scanner.nextInt();
-                            Order order = orderCache.getItem(orderId);
-                            if (order != null) {
-                                staff.processOrder(order.getStatus());
-                            }
-                        } catch (Exception e) {
-                            System.out.println("An error occurred while processing order: " + e.getMessage());
-                        }
+                        processOrder(scanner);
                         break;
                     case 4:
-                        try {
-                            System.out.println("Enter order ID to complete: ");
-                            int orderId = scanner.nextInt();
-                            Order order = orderCache.getItem(orderId);
-                            if (order != null) {
-                                staff.readyToPickupOrder(order.getStatus());
-                            }
-                        } catch (Exception e) {
-                            System.out.println("An error occurred while completing order: " + e.getMessage());
-                        }
+                        readyToPickupOrder(scanner);
                         break;
                     case 5:
-                        try {
-                            System.out.println("Enter order ID to track: ");
-                            int orderId = scanner.nextInt();
-                            Order order = orderCache.getItem(orderId);
-                            if (order != null) {
-                                order.getStatus();
-                            }
-                        } catch (Exception e) {
-                            System.out.println("An error occurred while tracking order: " + e.getMessage());
-                        }
+                        trackOrder(scanner);
                         break;
                     case 6:
                         System.out.println("Logging out...");
@@ -108,6 +72,79 @@ public class StaffUI implements AppUI {
         } while (true);
     }
 
-    
-}
+    protected void viewOrderDetails(Scanner scanner) {
+        try {
+            System.out.print("\nEnter the order ID: ");
+            int orderID = scanner.nextInt();
+            Order order = orderCache.getItem(orderID);
+            if (order != null) {
+                System.out.println(order.toString());
+            } else {
+                System.out.println("Order does not exist.");
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Enter only numbers! ");
+        }
+    }
 
+    protected void processOrder(Scanner scanner) {
+        try {
+            System.out.print("\nEnter order ID: ");
+            int orderId = scanner.nextInt();
+            Order order = orderCache.getItem(orderId);
+            if (order != null) {
+                if(order.getBranchName().equals(staff.getBranch().getBranchName())) {
+                    staff.processOrder(order);
+                } else {
+                    System.out.println("This order is not from your branch.");
+                }
+            } else {
+                System.out.println("Order does not exist.");
+            }
+        } catch(InputMismatchException e) {
+            System.out.println("Error input! Enter only numbers.\n");
+            scanner.nextLine();
+        }
+    }
+
+    protected void readyToPickupOrder(Scanner scanner) {
+        try {
+            System.out.print("\nEnter order ID: ");
+            int orderId = scanner.nextInt();
+            Order order = orderCache.getItem(orderId);
+            if (order != null) {
+                if(order.getBranchName().equals(staff.getBranch().getBranchName())) {
+                    staff.readyToPickupOrder(order);
+                } else {
+                    System.out.println("This order is not from your branch.");
+                }
+            } else {
+                System.out.println("Order does not exist.");
+            }
+        } catch(InputMismatchException e) {
+            System.out.println("Error input! Enter only numbers.\n");
+            scanner.nextLine();
+        }
+    }
+
+    protected void trackOrder(Scanner scanner) {
+        try {
+            System.out.print("\nEnter order ID to track: ");
+            int orderId = scanner.nextInt();
+            Order order = orderCache.getItem(orderId);
+            if (order != null) {
+                if(order.getBranchName().equals(staff.getBranch().getBranchName())) {
+                    System.out.println(order.getStatus());
+                } else {
+                    System.out.println("This order is not from your branch.");
+                }
+            } else {
+                System.out.println("Order does not exist.");
+            }
+        } catch(InputMismatchException e) {
+            System.out.println("Error input! Enter only numbers.\n");
+            scanner.nextLine();
+        }
+    }
+
+}

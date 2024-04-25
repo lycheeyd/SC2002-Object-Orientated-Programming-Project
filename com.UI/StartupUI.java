@@ -34,9 +34,8 @@ public class StartupUI implements AppUI {
                         break;
                     case 4:
                         scanner.close();
-                        System.out.println("Shutting down...");
                         FOMSApp.Shutdown();
-                        break;
+                        return;
                     default:
                         System.out.println("Invalid response. Try again.\n");
                         break;
@@ -44,11 +43,11 @@ public class StartupUI implements AppUI {
             } catch(InputMismatchException e) {
                 System.out.println("Error input! Enter only numbers.\n");
                 scanner.nextLine();
-            } catch (Exception e) {
+            } catch (Exception e) { //
                 System.out.println("\nUnexpected error occurred which has been passed up to apex handler.\n" + e.getMessage());
                 System.out.println("\n[=+=] System reloaded. Please start over.\n");
                 scanner.nextLine();
             }
-        } while (choice != 4);
+        } while (true);
     }
 }

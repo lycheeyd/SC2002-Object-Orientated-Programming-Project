@@ -1,4 +1,5 @@
 package com.UI;
+import com.users.Authenticator;
 import com.users.Employee;
 import com.cache.EmployeeCache;
 
@@ -27,6 +28,7 @@ public class LoginUI implements AppUI{
                         break;
                     case A:
                         new AdminUI(employee).displayMenu(scanner);
+                        break;
                     default:
                         System.err.println("An error occurred. (Role not assigned)");
                         break;

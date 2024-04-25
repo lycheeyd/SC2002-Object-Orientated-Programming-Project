@@ -40,8 +40,8 @@ public class TrackOrderUI implements AppUI {
                 System.out.println("\nOrder is in the kitchen!\n");
                 break;
             case READY_TO_PICKUP:
-                System.out.printf("\nOrder is ready! Do you want to collect your order? (Y/N)");
-                char collectChoice = Character.toUpperCase(scanner.nextLine().charAt(0));
+                System.out.printf("\nOrder is ready! Do you want to collect your order? (Y/N): ");
+                char collectChoice = Character.toUpperCase(scanner.next().charAt(0));
                 if (collectChoice == 'Y') {
                     order.setStatus(OrderStatus.COMPLETED);
                     System.out.println("You have collected your order.\n");
