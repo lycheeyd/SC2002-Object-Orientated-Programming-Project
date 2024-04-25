@@ -74,14 +74,14 @@ public class MenuCache extends AppCache<String, List<MenuItem>, MenuItem> {
 
     @SafeVarargs
     @Override
-    public final List<MenuItem> getItem(String name, Optional<Predicate<MenuItem>>... filters) {
+    public final List<MenuItem> getItem(String name, Optional<Predicate<Object>>... filters) {
         List<MenuItem> items = cacheItems.get(name);
         if (items == null) {
             // System.out.println("Unable to retrieve item. (Item not found)");
             return null;
         }
 
-        Predicate<MenuItem> combinedFilters = Stream.of(filters)
+        Predicate<Object> combinedFilters = Stream.of(filters)
                                                     .filter(Optional::isPresent)
                                                     .map(Optional::get)
                                                     .reduce(Predicate::and)

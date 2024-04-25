@@ -7,7 +7,7 @@ import java.util.function.Predicate;
 
 public interface CacheFetcher<K, T, T2> {
 
-    T getItem(K key, Optional<Predicate<T2>>... filters);
+    T getItem(K key, Optional<Predicate<Object>>... filters);
 
     // Implemented as concrete final methods shared by all Cache storages.    
     List<T2> getFilteredItems(Predicate<Object>... filters);

@@ -43,7 +43,7 @@ public class OrderCache extends AppCache<Integer, Order, Order> {
 
     @SafeVarargs
     @Override
-    public final Order getItem(Integer orderID, Optional<Predicate<Order>>... order) {
+    public final Order getItem(Integer orderID, Optional<Predicate<Object>>... order) {
         if (cacheItems.containsKey(orderID)) {
             return cacheItems.get(orderID);
         } else {

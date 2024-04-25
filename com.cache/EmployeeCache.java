@@ -34,7 +34,7 @@ public class EmployeeCache extends AppCache<String, Employee, Employee>{
     public final void removeItem(String loginID, Optional<Predicate<Employee>>... filters) {
         if (cacheItems.containsKey(loginID)) {
             cacheItems.remove(loginID);
-            System.out.println(loginID + "is removed.");
+            System.out.println(loginID + " is removed.");
         } else {
             System.out.println("Unable to remove employee (Employee not found)");
         }
@@ -42,7 +42,7 @@ public class EmployeeCache extends AppCache<String, Employee, Employee>{
 
     @SafeVarargs
     @Override
-    public final Employee getItem(String loginID, Optional<Predicate<Employee>>... filters) {
+    public final Employee getItem(String loginID, Optional<Predicate<Object>>... filters) {
         if (cacheItems.containsKey(loginID)) {
             return cacheItems.get(loginID);
         } else {

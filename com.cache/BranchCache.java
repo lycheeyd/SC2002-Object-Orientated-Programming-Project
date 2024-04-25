@@ -1,13 +1,8 @@
 package com.cache;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import com.branch.Branch;
 import com.branch.BranchName;
@@ -41,7 +36,7 @@ public class BranchCache extends AppCache<BranchName, Branch, Branch>{
     public final void removeItem(BranchName name, Optional<Predicate<Branch>>... filters) {
         if (cacheItems.containsKey(name)) {
             cacheItems.remove(name);
-            System.out.println(name + "is removed.");
+            System.out.println(name + " is removed.");
         } else {
             System.out.println("Unable to remove branch. (Branch not found)");
         }
@@ -49,7 +44,7 @@ public class BranchCache extends AppCache<BranchName, Branch, Branch>{
 
     @SafeVarargs
     @Override
-    public final Branch getItem(BranchName name, Optional<Predicate<Branch>>... filters) {
+    public final Branch getItem(BranchName name, Optional<Predicate<Object>>... filters) {
         if (cacheItems.containsKey(name)) {
             return cacheItems.get(name);
         } else {
@@ -64,6 +59,5 @@ public class BranchCache extends AppCache<BranchName, Branch, Branch>{
                         .map(function)
                         .forEach(System.out::println);
     }
-
-
+    
 }
