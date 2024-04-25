@@ -3,11 +3,6 @@ package com.branch;
 import com.cache.EmployeeCache;
 import com.users.StaffRole;
 
-import java.util.function.Predicate;
-
-import com.menu.MenuItem;
-
-
 public class Branch {
     private BranchName branchName;
     private String location;
@@ -19,13 +14,12 @@ public class Branch {
         this.staffQuota = staffQuota;
     }
 
-//return no. of staff + manager, logic done in UI
-    public int getStaffCount(){
-        return EmployeeCache.getInstance().getFilteredItems(this.branchName,StaffRole.S).size();
+    public int getStaffCount(EmployeeCache cache){
+        return cache.getFilteredItems(this.branchName,StaffRole.S).size();
     }
 
-    public int getManagerCount(){
-        return EmployeeCache.getInstance().getFilteredItems(this.branchName,StaffRole.M).size();
+    public int getManagerCount(EmployeeCache cache){
+        return cache.getFilteredItems(this.branchName,StaffRole.M).size();
     }
 
     public boolean quotaFull(Branch branch, EmployeeCache cache){
