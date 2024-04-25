@@ -4,7 +4,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.function.Predicate;
 
-public enum OrderType implements Predicate<Order>{
+public enum OrderType implements Predicate<Object>{
     DINE_IN, 
     TAKEAWAY;
 
@@ -38,7 +38,10 @@ public enum OrderType implements Predicate<Order>{
     }
     
     @Override
-    public boolean test(Order order) {
-        return order.getOrderType().equals(this);
+    public boolean test(Object o) {
+        if (o instanceof Order) {
+            return ((Order) o).getOrderType().equals(this);
+        }
+        return false;
     }
 }
