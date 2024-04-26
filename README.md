@@ -43,8 +43,8 @@ Refer to the table for the required files:
 ## Usage
 Please see [preconditions](#Preconditions) prior to running the application to avoid issues.
 
-The Folder `Final FOMSApp` has been provided in the submission folder. It includes a `FOMSApp-with-dependencies.jar` and the 3 required `.csv` files.
+The folder `FOMSApp` has been provided. It includes a `FOMSApp-with-dependencies.jar` and the 3 required `.csv` files.
 
-You may directly navigate into the `Final FOMSApp` folder and execute the `java -jar FOMSApp-with-dependencies.jar` command to run the program.
+You may directly navigate into the `FOMSApp` folder and execute the `java -jar FOMSApp-with-dependencies.jar` command to run the program.
 OR
 Choose to compile the source code yourself then run the program.
