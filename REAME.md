@@ -5,6 +5,16 @@ This is a project for the NTU module SC2002 Object Oriented Design & Programming
 
 It involves creating a Food Ordering and Management System (FOMS) through the use of Object Oriented Programming conforming to the SOLID design principles.
 
+## Contributors
+| Name                   | Username                                     | Course  |
+|------------------------|----------------------------------------------|---------|
+| Michael Yip Hoi Weng   | [@TinkyBala](https://github.com/Tinkybala))  | DSAI    |
+| Muhammad Aidil Firdaus | [@Aidilil](https://github.com/Aidilil)       | DSAI    |
+| Nathan Pua Jun Shen    | [@nathanpua](https://github.com/nathanpua)   | DSAI    |
+| Tay Kai Wen            | [@newiakyat](https://github.com/newiakyat)   | DSAI    |
+| Tan Yi Da              | [@lycheeyd](https://github.com/lycheeyd)     | BS      |
+
+
 Documentation of the code can be found in the [Javadoc folder]().
 Open the `index.html` file after downloading to view an interactive Javadoc HTML webpage.
 
