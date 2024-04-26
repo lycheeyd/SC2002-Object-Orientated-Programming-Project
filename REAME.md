@@ -15,18 +15,18 @@ The [SC2002 Assignment 2024S2 PDF file]() consists of the full requirements for 
 Java is the language of choice for this project.
 
 ## Preconditions
-Before using the application, note that 5 `.csv` files are required to be in the same working directory as your `.class` files after compilation. See [Usage](#Usage) for details of compilation.
+Before using the application, note that 3 `.csv` files are required to be in the same working directory as your `.class` files after compilation. See [Usage](#Usage) for details of compilation.
 
 It is recommended to not tamper with the files manually with the exception of `student.csv` and `staff.csv` to create new accounts.
 
 Refer to the table for the required files:
-| File | Description | Required Entries |
+| File | Description | Data Types |
 | - | - | - |
-| camp.csv | This file consists of all camps in the system. | Only the header is required.|
-| enquiry.csv | This file consists of all enquiries for camps in the system.  | Only the header is required.|
-| student.csv | This file consists of all student accounts in the system. | **Minimally 1 account is required alongside the header.**|
-| staff.csv | This file consists of all staff accounts in the system. | **Minimally 1 account is required alongside the header.**|
-| suggestion.csv | This file consists of all suggestions for camps in the system. | Only the header is required.|
+| branch_list.csv | This file consists of all the branches in the system. | Name, location and Staff Quota.|
+| menu_list.csv | This file consists of all the menu list for each branches in the system.  | Name, Price, Branch and Category.|
+| staff_list.csv| This file consists of all the staff in the system. | Name, Staff Login ID, Role, Gender, Age, Branch and Default Password.|
+
+
 
 ## Usage
 Please see [preconditions](#Preconditions) prior to running the application to avoid issues.
