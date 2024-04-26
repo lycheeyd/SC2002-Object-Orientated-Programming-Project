@@ -25,7 +25,7 @@ Java is the language of choice for this project.
 
 
 ## Preconditions
-Before using the application, note that 3 `.csv` files are required to be in the same working directory as your `.jar` files after compilation. See [Usage](#Usage) for details of compilation.
+Before using the application, note that 3 `.csv` files are required to be in the same working directory as your `.jar` or `.class` files after compilation. See [Usage](#Usage) for details of compilation.
 
 1. There is only one user accessing the system at a given time
 2. We expect users to remove or redirect staff and menu items out of the closed branch as the compulsory and minimum requirement of this application. Closing a branch without removing its staff and menu items will result in boot up error when the Application is next-run.
@@ -43,6 +43,8 @@ Refer to the table for the required files:
 ## Usage
 Please see [preconditions](#Preconditions) prior to running the application to avoid issues.
 
-A JDK is required to compile the source files and run the binaries.
+The Folder `Final FOMSApp` has been provided in the submission folder. It includes a `FOMSApp-with-dependencies.jar` and the 3 required `.csv` files.
 
-Upon compilation, navigate into the folder containing the `.class` files and execute the `java CAMApp` command to run the program.
+You may directly navigate into the `Final FOMSApp` folder and execute the `java -jar FOMSApp-with-dependencies.jar` command to run the program.
+OR
+Choose to compile the source code yourself then run the program.
