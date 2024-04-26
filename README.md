@@ -17,11 +17,11 @@ Java is the language of choice for this project.
 ## Contributors
 | Name                   | Username                                     | Course  |
 |------------------------|----------------------------------------------|---------|
-| Michael Yip Hoi Weng   | [@TinkyBala](https://github.com/Tinkybala)  | DSAI    |
-| Muhammad Aidil Firdaus | [@Aidilil](https://github.com/Aidilil)       | DSAI    |
-| Nathan Pua Jun Shen    | [@nathanpua](https://github.com/nathanpua)   | DSAI    |
-| Tay Kai Wen            | [@newiakyat](https://github.com/newiakyat)   | DSAI    |
-| lycheeyd (Name Hidden) | [@lycheeyd](https://github.com/lycheeyd)     | BS      |
+| Michael Yip Hoi Weng             | [@TinkyBala](https://github.com/Tinkybala)  | DSAI    |
+| Muhammad Aidil Firdaus           | [@Aidilil](https://github.com/Aidilil)       | DSAI    |
+| Nathan Pua Jun Shen              | [@nathanpua](https://github.com/nathanpua)   | DSAI    |
+| Tay Kai Wen                      | [@newiakyat](https://github.com/newiakyat)   | DSAI    |
+| lycheeyd (Name Hidden on GitHub) | [@lycheeyd](https://github.com/lycheeyd)     | BS      |
 
 
 ## Preconditions
