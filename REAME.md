@@ -8,7 +8,7 @@ It involves creating a Food Ordering and Management System (FOMS) through the us
 ## Contributors
 | Name                   | Username                                     | Course  |
 |------------------------|----------------------------------------------|---------|
-| Michael Yip Hoi Weng   | [@TinkyBala](https://github.com/Tinkybala))  | DSAI    |
+| Michael Yip Hoi Weng   | [@TinkyBala](https://github.com/Tinkybala)  | DSAI    |
 | Muhammad Aidil Firdaus | [@Aidilil](https://github.com/Aidilil)       | DSAI    |
 | Nathan Pua Jun Shen    | [@nathanpua](https://github.com/nathanpua)   | DSAI    |
 | Tay Kai Wen            | [@newiakyat](https://github.com/newiakyat)   | DSAI    |
