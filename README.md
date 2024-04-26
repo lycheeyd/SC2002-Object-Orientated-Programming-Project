@@ -27,7 +27,9 @@ Java is the language of choice for this project.
 ## Preconditions
 Before using the application, note that 3 `.csv` files are required to be in the same working directory as your `.jar` files after compilation. See [Usage](#Usage) for details of compilation.
 
-It is recommended to not tamper with the files manually with the exception of `student.csv` and `staff.csv` to create new accounts.
+1. There is only one user accessing the system at a given time
+2. We expect users to remove or redirect staff and menu items out of the closed branch as the compulsory and minimum requirement of this application. Closing a branch without removing its staff and menu items will result in boot up error when the Application is next-run.
+
 
 Refer to the table for the required files:
 | File | Description | Data Types |
