@@ -8,7 +8,7 @@ It involves creating a Food Ordering and Management System (FOMS) through the us
 Documentation of the code can be found in the [Javadoc folder]().
 Open the `index.html` file after downloading to view an interactive Javadoc HTML webpage.
 
-An [UML class diagram]([https://github.com/weihonglwh/SC2002-CAM-App-Project/blob/main/class-diagram-final.jpg](https://github.com/lycheeyd/SC2002-Object-Orientated-Programming-Project/blob/main/UML.svg)) is available for reference.
+An [UML class diagram](https://github.com/lycheeyd/SC2002-Object-Orientated-Programming-Project/blob/afb4b06fbba1bc33f94121bdc5f4906b45a0493d/UML%20Class%20Diagram.jpg) is available for reference.
  
 The [SC2002 Assignment 2024S2 PDF file]() consists of the full requirements for the project.
 
