@@ -25,7 +25,7 @@ Java is the language of choice for this project.
 
 
 ## Preconditions
-Before using the application, note that 3 `.csv` files are required to be in the same working directory as your `.class` files after compilation. See [Usage](#Usage) for details of compilation.
+Before using the application, note that 3 `.csv` files are required to be in the same working directory as your `.jar` files after compilation. See [Usage](#Usage) for details of compilation.
 
 It is recommended to not tamper with the files manually with the exception of `student.csv` and `staff.csv` to create new accounts.
 
